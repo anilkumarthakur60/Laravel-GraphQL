@@ -1,0 +1,9 @@
+extend  type  Query{
+    categories: [Category!]! @paginate,
+    category(id:ID @eq):Category @find,
+}
+type  Category{
+    id: ID,
+    name:String,
+    posts:[Post] @paginate,
+}

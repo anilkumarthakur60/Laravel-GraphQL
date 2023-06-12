@@ -1,0 +1,11 @@
+extend type  Query{
+    posts: [Post!]! @paginate,
+    post(id:ID @eq):Post @find,
+}
+type  Post{
+    id: ID!,
+    name:String!,
+    tags:[Tag]  @paginate,
+    category:Category @belongsTo
+}
+

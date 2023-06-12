@@ -1,0 +1,10 @@
+
+
+ type  Query{
+    tags(name:String @like): [Tag!]! @paginate(scopes: [""]),
+    tag(id:ID @eq):Tag @find,
+}
+type  Tag{
+    id: ID!,
+    name:String!,
+}

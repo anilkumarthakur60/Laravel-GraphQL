@@ -1,0 +1,38 @@
+extend  type  Query{
+    users(name:String @like): [User!]! @paginate(scopes: ["verified"]),
+    user(id:ID @eq):User @find,
+}
+
+
+type  User{
+    id: ID!,
+    name:String!,
+    email_verified_at:String,
+}
+
+
+
+type  Mutation{
+    createUser(
+        name:String!,
+        email:String! @rules(apply: ["email", "unique:users,email","required"]),
+        password:String! @rules(apply: ["required", "min:6"]),
+        password_confirmation:String,
+    ):User @create,
+
+    updateUser(
+        id:ID,
+        name:String!,
+        email:String!,
+        password:String
+    ):User @update,
+
+    upsertUser(
+        name: String!,
+        email: String!,
+        password: String,
+    ): User @upsert
+
+
+    deleteUser(id: ID! @whereKey): User @delete
+}
