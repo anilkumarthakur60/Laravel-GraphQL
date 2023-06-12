@@ -5,7 +5,6 @@ extend type  Query{
 type  Post{
     id: ID!,
     name:String!,
-    tags:[Tag]  @paginate,
-    category:Category @belongsTo
+    tags:[Tag]  @belongsToMany,
 }
 
