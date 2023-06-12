@@ -1,12 +1,31 @@
 
 type  Query{
-    users(name:String @like): [User!]! @paginate,
+    users(name:String @like): [User!]! @paginate(scopes: ["verified"]),
+    posts(name:String @like): [Post!]! @paginate(scopes: []),
+    categories(name:String @like): [Category!]! @paginate(scopes: []),
     user(id:ID @eq):User @find,
 }
 type  User{
     id: ID!,
     name:String!,
     email_verified_at:String,
+}
+
+type  Post{
+    id: ID!,
+    name:String!,
+    tags:[Tag] @hasMany
+}
+
+type  Tag{
+    id: ID!,
+    name:String!,
+}
+
+type  Category{
+    id: ID!,
+    name:String!,
+    posts:[Post] @hasMany
 }
 
 type  Mutation{
@@ -18,11 +37,17 @@ type  Mutation{
     ):User @create,
 
     updateUser(
-        id:ID!,
+        id:ID,
         name:String!,
         email:String!,
         password:String
     ):User @update,
+
+    upsertUser(
+        name: String!,
+        email: String!,
+        password: String,
+    ): User @upsert
 
 
     deleteUser(id: ID! @whereKey): User @delete
