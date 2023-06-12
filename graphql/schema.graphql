@@ -1,6 +1,6 @@
 
 type  Query{
-    users: [User!]! @paginate,
+    users(name:String @like): [User!]! @paginate,
     user(id:ID @eq):User @find,
 }
 type  User{
@@ -14,7 +14,16 @@ type  Mutation{
         name:String!,
         email:String!,
         password:String!,
-        password_confirmation:String!,
+        password_confirmation:String,
     ):User @create,
 
+    updateUser(
+        id:ID!,
+        name:String!,
+        email:String!,
+        password:String
+    ):User @update,
+
+
+    deleteUser(id: ID! @whereKey): User @delete
 }
